@@ -1,0 +1,6 @@
+2021-08-12 20:03:06 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CLIENTE" not found; SQL statement:
+insert into cliente (id, cpf, data_contratacao, nome, patrimonio, salario) values (null, ?, ?, ?, ?, ?) [42102-200]
+2021-08-12 20:03:25 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CLIENTE" not found; SQL statement:
+insert into cliente (id, cpf, data_contratacao, nome, patrimonio, salario) values (null, ?, ?, ?, ?, ?) [42102-200]
