@@ -4,6 +4,7 @@ import com.banco.emprestimo.enums.StatusProposta;
 import com.banco.emprestimo.model.Cliente;
 import com.banco.emprestimo.model.Parcela;
 import com.banco.emprestimo.model.Proposta;
+import org.springframework.hateoas.RepresentationModel;
 
 import javax.persistence.CascadeType;
 import javax.persistence.ManyToOne;
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PropostaOutput {
+public class PropostaOutput extends RepresentationModel<PropostaOutput> {
     private Double valor;
     private Double taxaJuros;
     private String nomeCliente;

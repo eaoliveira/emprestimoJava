@@ -33,6 +33,10 @@ public class Proposta {
         this.status = status;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
     public Double getValor() {
         return valor;
     }

@@ -7,12 +7,15 @@ import com.banco.emprestimo.errors.CustomExceptions;
 import com.banco.emprestimo.model.Proposta;
 import com.banco.emprestimo.services.PropostaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @RestController
 @RequestMapping("proposta")
@@ -26,7 +29,12 @@ public class PropostaController {
             @RequestBody PropostaInput propostaInput)  {
         try {
             Proposta proposta = propostaService.criarProposta(propostaInput);
-            return ResponseEntity.ok(new PropostaOutput(proposta.getValor(), proposta.getTaxaJuros(), proposta.getCliente().getNome(), proposta.getDataContratacao(), proposta.getStatus(), proposta.getParcelas()));
+
+            Link self = linkTo(PropostaController.class).slash(proposta.getId()).withSelfRel();
+            Link withRel = linkTo(PropostaController.class).withRel("proposta");
+
+
+            return ResponseEntity.ok(new PropostaOutput(proposta.getValor(), proposta.getTaxaJuros(), proposta.getCliente().getNome(), proposta.getDataContratacao(), proposta.getStatus(), proposta.getParcelas()).add(self).add(withRel));
         }catch (CustomExceptions exceptions){
            return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED).body(exceptions.getMessage());
         }
