@@ -17,6 +17,7 @@ public class Parcela {
     private Double valor;
     private Integer numero;
     private LocalDateTime dataParcela;
+    private LocalDateTime dataPagamento;
     private StatusParcela status;
 
     public Parcela(){
@@ -29,6 +30,14 @@ public class Parcela {
         this.numero = numero;
         this.dataParcela = dataParcela;
         this.status = status;
+    }
+
+    public LocalDateTime getDataPagamento() {
+        return dataPagamento;
+    }
+
+    public void setDataPagamento(LocalDateTime dataPagamento) {
+        this.dataPagamento = dataPagamento;
     }
 
     public Proposta getProposta() {

@@ -1,5 +1,6 @@
 package com.banco.emprestimo.controller;
 
+import com.banco.emprestimo.dto.PagarParcelaDto;
 import com.banco.emprestimo.dto.PropostaFiltro;
 import com.banco.emprestimo.dto.PropostaInput;
 import com.banco.emprestimo.dto.PropostaOutput;
@@ -51,6 +52,18 @@ public class PropostaController {
     public PropostaOutput aprovarProposta(Integer codigoProposta){
         return PropostaOutput.converte(propostaService.aprovarProposta(codigoProposta));
     }
+
+    @PostMapping("pagar")
+    public ResponseEntity pagarParcelas(PagarParcelaDto pagarParcelaDto){
+        try{
+            Proposta proposta = propostaService.pagarParcela(pagarParcelaDto);
+            return ResponseEntity.ok(PropostaOutput.converte(proposta));
+        } catch (CustomExceptions exceptions) {
+            return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED).body(exceptions.getMessage());
+        }
+
+    }
+
 
 
 }

@@ -1,5 +1,6 @@
 package com.banco.emprestimo.services;
 
+import com.banco.emprestimo.dto.PagarParcelaDto;
 import com.banco.emprestimo.dto.PropostaFiltro;
 import com.banco.emprestimo.dto.PropostaInput;
 import com.banco.emprestimo.errors.CustomExceptions;
@@ -13,4 +14,5 @@ public interface PropostaService {
     Proposta aprovarProposta(Integer id);
     List<Proposta> buscarPorFiltro(PropostaFiltro propostaFiltro);
     List<Parcela> buscarParcelas(Integer id);
+    Proposta pagarParcela(PagarParcelaDto pagarParcelaDto) throws CustomExceptions;
 }

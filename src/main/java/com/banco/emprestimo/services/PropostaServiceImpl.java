@@ -1,5 +1,6 @@
 package com.banco.emprestimo.services;
 
+import com.banco.emprestimo.dto.PagarParcelaDto;
 import com.banco.emprestimo.dto.PropostaFiltro;
 import com.banco.emprestimo.dto.PropostaInput;
 import com.banco.emprestimo.enums.StatusParcela;
@@ -45,6 +46,39 @@ public class PropostaServiceImpl implements PropostaService{
     @Override
     public List<Parcela> buscarParcelas(Integer id) {
         return propostaRepository.getById(id).getParcelas();
+    }
+
+
+
+    private Parcela buscarParcelasPorId(List<Parcela> parcelas, Integer id) {
+        return parcelas.stream().filter(i->i.getNumero().equals(id)).findFirst().orElse(null);
+    }
+
+    @Override
+    public Proposta pagarParcela(PagarParcelaDto pagarParcelaDto) throws CustomExceptions {
+
+        Proposta proposta = propostaRepository.getById(pagarParcelaDto.getProposta());
+
+        if(proposta.getStatus()!=StatusProposta.APROVADO){
+            throw new CustomExceptions("Proposta Não aprovada");
+        };
+
+
+//        Parcela parcela=  buscarParcelas(pagarParcelaDto.getProposta()).get(pagarParcelaDto.getParcela()+1);
+       try {
+           Parcela parcela = buscarParcelasPorId(buscarParcelas(pagarParcelaDto.getProposta()), pagarParcelaDto.getParcela());
+           if(parcela.getStatus()!=StatusParcela.PENDENTE){
+               throw new CustomExceptions("Parcela não disponivel para pagamento");
+           };
+           parcela.setDataPagamento(LocalDateTime.now());
+           parcela.setStatus(StatusParcela.PAGA);
+           return propostaRepository.save(proposta);
+       }catch (NullPointerException nullPointerException){
+            throw new CustomExceptions("Parcela não encontrada");
+       }
+
+
+
     }
 
     private Proposta calcularParcelas(PropostaInput proposta) throws CustomExceptions {
